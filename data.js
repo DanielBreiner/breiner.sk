@@ -27,6 +27,9 @@ const PROFILE = {
   ],
 };
 
+// Shown at the bottom of the log when every lane filter is on, or every one is off.
+const INITIAL_COMMIT = { title: "Initial commit", start: "2000-08" };
+
 const ENTRIES = [
   {
     title: "Frontend Developer",

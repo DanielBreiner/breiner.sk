@@ -141,6 +141,39 @@ function renderEntry(entry) {
     </article>`;
 }
 
+function yearsSince(date) {
+  const [year, month] = date.split("-").map(Number);
+  const now = new Date();
+  return Math.floor((now.getFullYear() * 12 + now.getMonth() + 1 - (year * 12 + month)) / 12);
+}
+
+// Shown with every filter on, and as the empty state when the filters hide everything else.
+const isInitialCommitVisible = (visibleEntries) =>
+  visibleEntries.length === 0 || (!soloLane && hiddenLanes.size === 0);
+
+function renderInitialCommit(spans) {
+  const laneIds = LANES.map((lane) => lane.id).filter((id) => spans[id] && isLaneVisible(id));
+  const xs = laneIds.map(laneX);
+  const nodeX = xs.length ? xs[0] : laneX(LANES[0].id);
+  let graph = laneIds
+    .map((id) => `<div class="lane-line" style="left:${laneX(id)}px;--c:var(--${id});top:0;height:${NODE_Y}px"></div>`)
+    .join("");
+  if (xs.length > 1) {
+    graph += `<div class="node-link initial-link" style="left:${nodeX}px;width:${xs[xs.length - 1] - nodeX}px"></div>`;
+  }
+  graph += `<div class="node initial-node" style="left:${nodeX}px"></div>`;
+
+  const years = yearsSince(INITIAL_COMMIT.start);
+  const entry = `
+    <article class="entry">
+      <div>
+        <div class="entry-heading"><h2 class="entry-title">${INITIAL_COMMIT.title}</h2></div>
+        <div class="entry-meta"><span>${formatMonth(INITIAL_COMMIT.start)}</span><span>${years} years ago</span></div>
+      </div>
+    </article>`;
+  return `<li class="row"><div class="graph" aria-hidden="true">${graph}</div>${entry}</li>`;
+}
+
 const logElement = document.getElementById("log");
 const filterElement = document.getElementById("filters");
 const statusElement = document.getElementById("log-status");
@@ -159,9 +192,15 @@ function render() {
     }
   });
 
-  logElement.innerHTML = visibleEntries
-    .map((entry, row) => `<li class="row"><div class="graph" aria-hidden="true">${renderGraph(entry, row, spans)}</div>${renderEntry(entry)}</li>`)
-    .join("");
+  // Lanes run down into the initial commit, like branches back to the root.
+  const showInitialCommit = isInitialCommitVisible(visibleEntries);
+  const initialRow = visibleEntries.length;
+  if (showInitialCommit) Object.values(spans).forEach((span) => (span.last = initialRow));
+
+  logElement.innerHTML =
+    visibleEntries
+      .map((entry, row) => `<li class="row"><div class="graph" aria-hidden="true">${renderGraph(entry, row, spans)}</div>${renderEntry(entry)}</li>`)
+      .join("") + (showInitialCommit ? renderInitialCommit(spans) : "");
   statusElement.textContent = `Showing ${visibleEntries.length} of ${entries.length} entries`;
 }
 

@@ -291,6 +291,14 @@ footer a:hover {
   opacity: 0.8;
 }
 
+.initial-node {
+  --c: var(--text-soft);
+}
+
+.initial-link {
+  background: var(--text-dim);
+}
+
 /* Entries */
 
 .entry {
