@@ -1,0 +1,7 @@
+Meslo LG S v1.2.1 (Regular, Bold), subset to Latin and converted to WOFF2.
+Source: https://github.com/andreberg/Meslo-Font
+
+Copyright 2009, 2010, 2013 André Berg
+Licensed under the Apache License, Version 2.0 (see LICENSE-Apache-2.0.txt).
+
+Meslo LG is a customized version of Apple's Menlo-Regular font, which is based on Bitstream Vera Sans Mono and DejaVu Sans Mono.

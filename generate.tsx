@@ -53,7 +53,7 @@ const cards: {
 			),
 			branch: "work",
 			tag: "web dev",
-			image: "src/img/cards/recombee-logo.svg",
+			image: "/src/img/cards/recombee-logo.svg",
 		},
 		{
 			title: "Student",
@@ -86,7 +86,7 @@ const cards: {
 				</div>
 			),
 			branch: "school",
-			image: "src/img/cards/fit-cvut-logo-cs.svg",
+			image: "/src/img/cards/fit-cvut-logo-cs.svg",
 		},
 		{
 			title: "Teaching Assistant",
@@ -113,7 +113,7 @@ const cards: {
 				</div>
 			),
 			branch: "school",
-			image: "src/img/cards/fit-cvut-logo-cs.svg",
+			image: "/src/img/cards/fit-cvut-logo-cs.svg",
 		},
 		{
 			title: "Full Stack Developer",
@@ -135,7 +135,7 @@ const cards: {
 			),
 			branch: "work",
 			tag: "web dev",
-			image: "src/img/cards/profikasa.png",
+			image: "/src/img/cards/profikasa.png",
 		},
 		{
 			title: "Web Support / Administrator / Automation Engineer",
@@ -157,7 +157,7 @@ const cards: {
 			),
 			branch: "work",
 			tag: "web dev",
-			image: "src/img/cards/oneclick.svg",
+			image: "/src/img/cards/oneclick.svg",
 		},
 		{
 			title: "Intern",
@@ -166,7 +166,7 @@ const cards: {
 			description: `Design sprint in the Elevator Lab R&D department, focused on improving financial literacy of the youngest clients.<br/>Invited after winning the Hack Kosice 2019 hackathon in Tatra Banka's category.`,
 			branch: "work",
 			tag: "web dev",
-			image: "src/img/cards/tatra_banka.svg",
+			image: "/src/img/cards/tatra_banka.svg",
 		},
 	],
 	projects: [
@@ -211,7 +211,7 @@ const cards: {
 			),
 			branch: "personal",
 			tag: "game dev",
-			image: "src/img/cards/evershift.png",
+			image: "/src/img/cards/evershift.png",
 			imageStyle: "max-width: 300px; max-height: 300px",
 			openableImage: true,
 		},
@@ -256,7 +256,7 @@ const cards: {
 			),
 			branch: "personal",
 			tag: "game dev",
-			image: "src/img/cards/chathuman.png",
+			image: "/src/img/cards/chathuman.png",
 			imageStyle: "max-width: 300px; max-height: 300px",
 			openableImage: true,
 		},
@@ -289,7 +289,7 @@ const cards: {
 			),
 			branch: "personal",
 			tag: "web dev",
-			image: "src/img/cards/storiesy.jpg",
+			image: "/src/img/cards/storiesy.jpg",
 			imageStyle:
 				"max-width: 300px; max-height: 300px; box-shadow: 0 0 5px 0 rgba(0,0,0,0.5)",
 			openableImage: true,
@@ -331,7 +331,7 @@ const cards: {
 			),
 			branch: "school",
 			tag: "game dev",
-			image: "src/img/cards/salassimulator.jpg",
+			image: "/src/img/cards/salassimulator.jpg",
 			imageStyle: "max-width: 300px; max-height: 300px",
 			openableImage: true,
 		},
@@ -373,7 +373,7 @@ const cards: {
 			),
 			branch: "personal",
 			tag: "game dev",
-			image: "src/img/cards/rhune.png",
+			image: "/src/img/cards/rhune.png",
 			imageStyle: "max-width: 300px; max-height: 300px",
 			openableImage: true,
 		},
@@ -405,7 +405,7 @@ const cards: {
 			),
 			branch: "school",
 			tag: "game dev",
-			image: "src/img/cards/voxelengine.png",
+			image: "/src/img/cards/voxelengine.png",
 			imageStyle: "max-width: 300px; max-height: 300px",
 			openableImage: true,
 		},
@@ -442,7 +442,7 @@ const cards: {
 			),
 			branch: "personal",
 			tag: "web dev",
-			image: "src/img/cards/hatenot.png",
+			image: "/src/img/cards/hatenot.png",
 			imageStyle: "max-width: 300px; max-height: 300px",
 			openableImage: true,
 		},
@@ -452,7 +452,7 @@ const cards: {
 			description: (
 				<div class="mb-3">
 					My first public web portfolio, originally created in 2019 -{" "}
-					<a href="/old" target="_blank" class="link-dark">
+					<a href="/v1/" target="_blank" class="link-dark">
 						link
 					</a>
 				</div>
@@ -497,7 +497,7 @@ const cards: {
 			),
 			branch: "personal",
 			tag: "game dev",
-			image: "src/img/cards/messyjessie.png",
+			image: "/src/img/cards/messyjessie.png",
 			imageStyle: "max-width: 300px; max-height: 300px",
 			openableImage: true,
 		},
@@ -531,7 +531,7 @@ const cards: {
 			),
 			branch: "school",
 			tag: "game dev",
-			image: "src/img/cards/spellguard.png",
+			image: "/src/img/cards/spellguard.png",
 			imageStyle: "max-width: 300px; max-height: 300px",
 			openableImage: true,
 		},
@@ -604,8 +604,8 @@ const App = `
     <meta name="apple-mobile-web-app-title" content="Daniel Breiner">
     <link rel="apple-touch-icon" href="/src/img/me192.png">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="src/css/main.css">
-    <link rel="stylesheet" href="src/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/css/main.css">
+    <link rel="stylesheet" href="/src/css/bootstrap.min.css">
     <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css"
         integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous"> -->
     <!-- Some of the icons used are from Font Awesome 5 Solid: Author: Dave Gandy; License: CC BY 4.0; Original: https://fontawesome.com; License: https://creativecommons.org/licenses/by/4.0/; No changes made; -->
@@ -620,10 +620,10 @@ const App = `
             }
 
             var srcs = {
-                "poster-book": "src/img/design_gallery/burza_knih_2017.jpg",
-                "poster-upside": "src/img/design_gallery/den_naopak_2017_v2.png",
-                "poster-election": "src/img/design_gallery/kandiduj_do_zsr_v2.png",
-                "poster-ball": "src/img/design_gallery/plagat_ples1718.png"
+                "poster-book": "/src/img/design_gallery/burza_knih_2017.jpg",
+                "poster-upside": "/src/img/design_gallery/den_naopak_2017_v2.png",
+                "poster-election": "/src/img/design_gallery/kandiduj_do_zsr_v2.png",
+                "poster-ball": "/src/img/design_gallery/plagat_ples1718.png"
             };
 
             for (const el in srcs) {
@@ -689,19 +689,19 @@ const App = `
                     <li class="linkedin"><a href="https://www.linkedin.com/in/daniel-breiner/" target="_blank"
                             rel="noopener noreferrer" title="https://www.linkedin.com/in/daniel-breiner/"
                             aria-label="Check out my LinkedIn">
-                            <img src="src/img/icons/linkedin.svg" alt="LinkedIn">
+                            <img src="/src/img/icons/linkedin.svg" alt="LinkedIn">
                         </a>
                     </li>
                     <li class="devpost"><a href="https://devpost.com/DanielBreiner" target="_blank"
                             rel="noopener noreferrer" title="https://devpost.com/DanielBreiner"
                             aria-label="Check out my Devpost">
-                            <img src="src/img/icons/devpost.svg" alt="Devpost">
+                            <img src="/src/img/icons/devpost.svg" alt="Devpost">
                         </a>
                     </li>
                     <li class="github">
                         <a href="https://github.com/DanielBreiner" target="_blank" rel="noopener noreferrer"
                             title="https://github.com/DanielBreiner" aria-label="Check out my Github">
-                            <img src="src/img/icons/github.svg" alt="Github">
+                            <img src="/src/img/icons/github.svg" alt="Github">
                         </a>
                     </li>
                 </ul>
@@ -888,4 +888,4 @@ function Card({
 	);
 }
 
-writeFileSync("index.html", App);
+writeFileSync("v2/index.html", App);
