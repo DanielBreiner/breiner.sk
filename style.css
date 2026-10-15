@@ -295,8 +295,15 @@ footer a:hover {
   --c: var(--text-soft);
 }
 
-.initial-link {
-  background: var(--text-dim);
+/* Each lane bends left into the root node. */
+.initial-elbow {
+  position: absolute;
+  top: 0;
+  height: calc(var(--node-y) + 1px);
+  border: 0 solid var(--c);
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  border-bottom-right-radius: 10px;
 }
 
 /* Entries */
@@ -377,7 +384,7 @@ footer a:hover {
 }
 
 .entry-notes li::before {
-  content: "- ";
+  content: "· ";
 }
 
 .entry-links {

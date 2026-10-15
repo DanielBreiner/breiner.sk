@@ -212,7 +212,7 @@ const ENTRIES = [
     links: [
       { label: "v1 (2019)", url: "https://breiner.sk/v1/" },
       { label: "v2 (2023)", url: "https://breiner.sk/v2/" },
-      { label: "current (this one)", url: "https://breiner.sk/" },
+      { label: "current (this one)", url: "#" },
     ],
   },
   {

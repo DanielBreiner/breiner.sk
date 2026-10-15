@@ -40,6 +40,23 @@ function restoreFilterState(state) {
   soloLane = state.solo;
 }
 
+// The filter state lives in the URL, e.g. ?hide=school,game&only=work, so a filtered view can be shared.
+function readFilterStateFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const laneIds = (key) => (params.get(key) ?? "").split(",").filter((id) => id in laneById);
+  restoreFilterState({ hidden: new Set(laneIds("hide")), solo: laneIds("only")[0] ?? null });
+}
+
+function writeFilterStateToUrl() {
+  const params = new URLSearchParams(location.search);
+  params.delete("hide");
+  params.delete("only");
+  if (hiddenLanes.size) params.set("hide", [...hiddenLanes].join(","));
+  if (soloLane) params.set("only", soloLane);
+  const query = params.toString().replaceAll("%2C", ",");
+  history.replaceState(history.state, "", `${location.pathname}${query ? `?${query}` : ""}${location.hash}`);
+}
+
 function toggleLane(laneId) {
   soloLane = null;
   if (hiddenLanes.has(laneId)) hiddenLanes.delete(laneId);
@@ -125,7 +142,11 @@ function renderEntry(entry) {
     .map((id) => `<span style="color:var(--${id})">${laneById[id].label}</span>`)
     .join(", ");
   const links = (entry.links ?? [])
-    .map((link) => `<a href="${link.url}" target="_blank" rel="noopener">${link.label}</a>`)
+    .map((link) =>
+      link.url.startsWith("#")
+        ? `<a href="${link.url}">${link.label}</a>`
+        : `<a href="${link.url}" target="_blank" rel="noopener">${link.label}</a>`,
+    )
     .join("");
   return `
     <article class="entry">
@@ -153,13 +174,14 @@ const isInitialCommitVisible = (visibleEntries) =>
 
 function renderInitialCommit(spans) {
   const laneIds = LANES.map((lane) => lane.id).filter((id) => spans[id] && isLaneVisible(id));
-  const xs = laneIds.map(laneX);
-  const nodeX = xs.length ? xs[0] : laneX(LANES[0].id);
-  let graph = laneIds
-    .map((id) => `<div class="lane-line" style="left:${laneX(id)}px;--c:var(--${id});top:0;height:${NODE_Y}px"></div>`)
-    .join("");
-  if (xs.length > 1) {
-    graph += `<div class="node-link initial-link" style="left:${nodeX}px;width:${xs[xs.length - 1] - nodeX}px"></div>`;
+  const nodeX = laneIds.length ? laneX(laneIds[0]) : laneX(LANES[0].id);
+  let graph = "";
+  if (laneIds.length) {
+    graph += `<div class="lane-line" style="left:${nodeX}px;--c:var(--${laneIds[0]});top:0;height:${NODE_Y}px"></div>`;
+  }
+  // Rightmost first, so each bend sits on top of the ones further out.
+  for (const id of laneIds.slice(1).reverse()) {
+    graph += `<div class="initial-elbow" style="left:${nodeX}px;width:${laneX(id) - nodeX + 1}px;--c:var(--${id})"></div>`;
   }
   graph += `<div class="node initial-node" style="left:${nodeX}px"></div>`;
 
@@ -179,6 +201,7 @@ const filterElement = document.getElementById("filters");
 const statusElement = document.getElementById("log-status");
 
 function render() {
+  writeFilterStateToUrl();
   filterElement.querySelectorAll("[data-lane]").forEach((button) => {
     button.setAttribute("aria-pressed", isLaneVisible(button.dataset.lane));
   });
@@ -277,4 +300,5 @@ emailLink.href = `mailto:${PROFILE.email}`;
 emailLink.textContent = PROFILE.email;
 
 mobileQuery.addEventListener("change", render);
+readFilterStateFromUrl();
 render();
