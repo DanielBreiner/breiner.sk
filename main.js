@@ -80,7 +80,10 @@ function soloOrReset(laneId) {
   render();
 }
 
+// Keep in sync with --node-y in style.css.
 const NODE_Y = 25;
+const featuredNodeY = () => (mobileQuery.matches ? 43 : 51);
+const nodeYOf = (entry) => (entry.featured ? featuredNodeY() : NODE_Y);
 const mobileQuery = matchMedia("(max-width: 720px)");
 
 function laneX(laneId) {
@@ -91,6 +94,7 @@ function laneX(laneId) {
 }
 
 function renderGraph(entry, row, spans) {
+  const nodeY = nodeYOf(entry);
   let html = "";
   for (const lane of LANES) {
     const span = spans[lane.id];
@@ -102,8 +106,8 @@ function renderGraph(entry, row, spans) {
       html += `<div class="lane-line" style="${style};top:0;bottom:0"></div>`;
       continue;
     }
-    if (above) html += `<div class="lane-line" style="${style};top:0;height:${NODE_Y}px"></div>`;
-    if (below) html += `<div class="lane-line" style="${style};top:${NODE_Y}px;bottom:0"></div>`;
+    if (above) html += `<div class="lane-line" style="${style};top:0;height:${nodeY}px"></div>`;
+    if (below) html += `<div class="lane-line" style="${style};top:${nodeY}px;bottom:0"></div>`;
   }
 
   const nodeLanes = entry.lanes.filter(isLaneVisible).sort((a, b) => laneX(a) - laneX(b));
@@ -134,25 +138,36 @@ function renderMedia(entry) {
   return `<a class="${className}" href="${href}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">${content}</a>`;
 }
 
-const renderList = (className, items = []) =>
-  items.length ? `<ul class="${className}">${items.map((item) => `<li>${item}</li>`).join("")}</ul>` : "";
-
-function renderEntry(entry) {
-  const laneTags = entry.lanes
-    .map((id) => `<span style="color:var(--${id})">${laneById[id].label}</span>`)
-    .join(", ");
-  const links = (entry.links ?? [])
+function renderLinks(entry) {
+  return (entry.links ?? [])
     .map((link) =>
       link.url.startsWith("#")
         ? `<a href="${link.url}">${link.label}</a>`
         : `<a href="${link.url}" target="_blank" rel="noopener">${link.label}</a>`,
     )
     .join("");
+}
+
+function renderMeta(entry) {
+  const tags = entry.lanes
+    .map((id) => `<span class="entry-tag" style="--c:var(--${id})">${laneById[id].label}</span>`)
+    .join("");
   return `
-    <article class="entry">
+    <div class="entry-meta"><span>${entry.org}</span><span>${formatDates(entry)}</span></div>
+    <div class="entry-tags">${tags}</div>`;
+}
+
+const renderList = (className, items = []) =>
+  items.length ? `<ul class="${className}">${items.map((item) => `<li>${item}</li>`).join("")}</ul>` : "";
+
+// Featured entries render large; the rest use the same layout with smaller type and a thumbnail.
+function renderEntryBody(entry, variant) {
+  const links = renderLinks(entry);
+  return `
+    <article class="entry entry-${variant}">
       <div>
-        <div class="entry-heading"><h2 class="entry-title">${entry.title}</h2><span class="entry-lanes">(${laneTags})</span></div>
-        <div class="entry-meta"><span>${entry.org}</span><span>${formatDates(entry)}</span></div>
+        <h3 class="entry-title">${entry.title}</h3>
+        ${renderMeta(entry)}
         ${entry.summary ? `<p class="entry-summary">${entry.summary}</p>` : ""}
         ${renderList("entry-wins", entry.wins)}
         ${renderList("entry-notes", entry.notes)}
@@ -161,6 +176,8 @@ function renderEntry(entry) {
       ${renderMedia(entry)}
     </article>`;
 }
+
+const renderEntry = (entry) => renderEntryBody(entry, entry.featured ? "featured" : "compact");
 
 function yearsSince(date) {
   const [year, month] = date.split("-").map(Number);
@@ -189,7 +206,7 @@ function renderInitialCommit(spans) {
   const entry = `
     <article class="entry">
       <div>
-        <div class="entry-heading"><h2 class="entry-title">${INITIAL_COMMIT.title}</h2></div>
+        <h3 class="entry-title">${INITIAL_COMMIT.title}</h3>
         <div class="entry-meta"><span>${formatMonth(INITIAL_COMMIT.start)}</span><span>${years} years ago</span></div>
       </div>
     </article>`;
@@ -222,7 +239,7 @@ function render() {
 
   logElement.innerHTML =
     visibleEntries
-      .map((entry, row) => `<li class="row"><div class="graph" aria-hidden="true">${renderGraph(entry, row, spans)}</div>${renderEntry(entry)}</li>`)
+      .map((entry, row) => `<li class="row${entry.featured ? " row-featured" : ""}"><div class="graph" aria-hidden="true">${renderGraph(entry, row, spans)}</div>${renderEntry(entry)}</li>`)
       .join("") + (showInitialCommit ? renderInitialCommit(spans) : "");
   statusElement.textContent = `Showing ${visibleEntries.length} of ${entries.length} entries`;
 }
@@ -231,15 +248,15 @@ filterElement.innerHTML =
   LANE_GROUPS.map(
     (group, groupIndex) => `
       <div class="filter-group" role="group" aria-labelledby="filter-group-${groupIndex}">
-        <span class="filter-group-label" id="filter-group-${groupIndex}">${group.label}/</span>
+        <span class="filter-group-label" id="filter-group-${groupIndex}">${group.label[0].toUpperCase() + group.label.slice(1)}</span>
         ${group.lanes
           .map((lane) => `<button type="button" class="filter" data-lane="${lane.id}" style="--c:var(--${lane.id})" aria-pressed="true" aria-describedby="filter-hint-key">${lane.label}</button>`)
           .join("")}
       </div>`,
   ).join("") +
   `<p class="filter-hint">
-    <span class="hint-touch"># hold a lane to show only it</span>
-    <span class="hint-key" id="filter-hint-key"># shift+enter shows only this lane</span>
+    <span class="hint-touch">Hold a lane to show only it</span>
+    <span class="hint-key" id="filter-hint-key">Shift+Enter shows only this lane</span>
   </p>`;
 
 const LONG_PRESS_MS = 450;

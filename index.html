@@ -23,25 +23,25 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://breiner.sk/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="fonts/MesloLGS-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/Geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/GeistMono-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="page">
     <header>
-      <div class="command"><span class="prompt">~/dano $</span> git log --graph --all</div>
       <h1>Daniel Breiner</h1>
       <p class="subtitle">Software engineer</p>
     </header>
 
     <nav class="filters" id="filters" aria-label="Filter by lane"></nav>
     <main>
+      <h2 class="visually-hidden">Work, education and projects</h2>
       <p class="visually-hidden" id="log-status" role="status"></p>
       <ol class="log" id="log"></ol>
     </main>
 
     <footer>
-      <div class="command"><span class="prompt">~/dano $</span> git config user.email</div>
       <a id="email"></a>
     </footer>
   </div>

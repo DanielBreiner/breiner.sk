@@ -1,3 +1,4 @@
+// featured: true shows the entry with larger type and a bigger image; the rest render smaller.
 // Dates are "YYYY-MM". end: null means ongoing; no end means a single point in time.
 // Entries are listed newest first by end date. sortBy overrides the date used for ordering.
 
@@ -33,6 +34,7 @@ const INITIAL_COMMIT = { title: "Initial commit", start: "2000-08" };
 const ENTRIES = [
   {
     title: "Frontend Developer",
+    featured: true,
     org: "Recombee",
     logo: "img/recombee-logo.svg",
     start: "2021-05",
@@ -47,6 +49,7 @@ const ENTRIES = [
   },
   {
     title: "Master's degree",
+    featured: true,
     org: "FIT CTU in Prague",
     logo: "img/fit-cvut-logo-en.svg",
     start: "2022-09",
@@ -57,6 +60,7 @@ const ENTRIES = [
   },
   {
     title: "Teaching Assistant",
+    featured: true,
     org: "FIT CTU in Prague",
     logo: "img/fit-cvut-logo-en.svg",
     start: "2022-09",
@@ -67,6 +71,7 @@ const ENTRIES = [
   },
   {
     title: "Evershift",
+    featured: true,
     org: "FIT CTU GameHack 2023",
     img: "img/evershift.webp",
     start: "2023-11",
